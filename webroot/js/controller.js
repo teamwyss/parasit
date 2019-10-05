@@ -7,6 +7,10 @@ var windowSettings = {
 	}
 };
 */
+
+let isDebug = true;
+let textDebug;
+
 var config = {
     type: Phaser.AUTO,
     backgroundColor: '#008800',
@@ -38,24 +42,27 @@ var controls;
 
 var game = new Phaser.Game(config);
 
-function preload ()
-{
-    //this.load.image('einstein', 'assets/pics/ra-einstein.png');
-    //game.load.image('bgGrass', '../img/bgGrass.png');
-    this.load.image('bgGrass', '../img/bgGrass.png');
+function preload () {
+    this.load.image('bgGrass', '../img/bg.grass.png');
+    this.load.image('mobFlytrap', '../img/mob.flytrap.png');
 }
 
-function create ()
-{
-    var smileys = [ 'u needa eat plonts','parasit rocks','yay its working','yeet roflol' ];
+console.log("dsfdsfsdfsdfdsfsdfsdfsdf");
 
-    //var iBgW = 64 * 64;
-	//var iBgH = iBgW;
-    //bgGrass = game.add.tileSprite(0, 0, iBgW, iBgH, 'bgGrass');
-    //bgGrass = this.add.tileSprite(0, 0, config.map.width, config.map.height, 'bgGrass'); //TODO change this to game
-    //bgGrass = this.add.tileSprite(0, 0, 4000, 4000, 'bgGrass'); //TODO change this to game
-    bgGrass = this.add.tileSprite(0, 0, 4000, 4000, "bgGrass");
+function create () {
+	
+
+ 
+	/*
+	TODO Finish this to make cursor a seed... 	cursor: url('../img/cursor.crosshairs.png') 16 16, crosshair;
+	document.body.style.cursor = "url(../img/cursor.seed.png)";
+	*/
+	
+	document.querySelector("*").style.cursor = "url(../img/cursor.crosshairs.png)";
+	
+    bgGrass = this.add.tileSprite(0, 0, 4000, 4000, "bgGrass"); //TODO change this to game
 	bgGrass.fixedToCamera = false;
+	//mobFlytrap = this.add.sprite(300, 300, "mobFlytrap");
 	
     var sf = 0.5; //TODO Orphans?
     var px = 64;
@@ -78,9 +85,30 @@ function create ()
     };
 
     controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    textDebug = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' });
+    
+    
 }
 
-function update (time, delta)
-{
-    controls.update(delta);
+function update (time, delta) {
+	var pointer = this.input.activePointer;
+	
+	if (pointer.isDown) {
+		//mobFlytrap = this.add.sprite(pointer.midPoint.x, pointer.midPoint.y, "mobFlytrap");
+		mobFlytrap = this.add.sprite(pointer.worldX, pointer.worldY, "mobFlytrap");
+	}    
+	controls.update(delta);
+
+    textDebug.setText([
+        'x: ' + pointer.x,
+        'y: ' + pointer.y,
+        'mid x: ' + pointer.midPoint.x,
+        'mid y: ' + pointer.midPoint.y,
+        'velocity x: ' + pointer.velocity.x,
+        'velocity y: ' + pointer.velocity.y,
+        'movementX: ' + pointer.movementX,
+        'movementY: ' + pointer.movementY,
+        "worldX: " + pointer.worldX
+    ]);
 }
+
