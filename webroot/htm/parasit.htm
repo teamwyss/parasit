@@ -15,7 +15,13 @@ body {
 <script type="text/javascript" src="../js/lib/phaser.js"></script>
 <script type="text/javascript">
 let iRand = Math.round(Math.random() * 1000);
-document.write("<script type=\"text/javascript\" src=\"../js/controller.js?refresh="+iRand+"\">"+"<"+"/s"+"cript>");
+const sIn = "<script type=\"text/javascript\" src=\"../js/";
+const sMid = "?refresh=" + iRand;
+const sEnd = "\">"+"<"+"/s"+"cript>\n";
+let sOut = sIn + "util.js" + sMid + sEnd;
+sOut += sIn + "controller.js" + sMid + sEnd;
+sOut += sIn + "mobManager.js" + sMid + sEnd;
+document.write(sOut);
 </script>
 </head>
 <body>
